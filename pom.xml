@@ -7,11 +7,13 @@
     <groupId>com.jarcasting</groupId>
     <artifactId>commons-json-utils</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <name>Commons Json Utilities</name>
+    <description>Utilities for serialize and deserialize from JSON using Jackson</description>
 
-    <url>https://github.com/JarCasting/commons-json-utils</url>
+
+    <url>https://jarcasting.com/</url>
 
     <inceptionYear>2020</inceptionYear>
     <organization>
@@ -49,10 +51,15 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray-zohen-releases</id>
-            <name>zohen-releases</name>
-            <url>https://api.bintray.com/maven/zohen/releases/commons-json-utils/;publish=1</url>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>
@@ -134,6 +141,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -144,9 +152,39 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.4</version>
+
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
     </build>
+
 
 </project>
