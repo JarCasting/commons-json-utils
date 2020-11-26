@@ -11,7 +11,7 @@
 
     <name>Commons Json Utilities</name>
 
-    <url>https://jarcasting.com/</url>
+    <url>https://github.com/JarCasting/commons-json-utils</url>
 
     <inceptionYear>2020</inceptionYear>
     <organization>
@@ -131,6 +131,20 @@
                 </configuration>
 
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
         </plugins>
 
     </build>
