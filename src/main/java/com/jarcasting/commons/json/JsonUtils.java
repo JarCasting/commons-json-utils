@@ -17,7 +17,9 @@ package com.jarcasting.commons.json;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -26,6 +28,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr353.JSR353Module;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.jarcasting.commons.json.jackson.BigDecimalDeserializator;
 import com.jarcasting.commons.json.jackson.BigDecimalSerializator;
@@ -34,13 +37,10 @@ import com.jarcasting.commons.json.jackson.PrimitiveToObjectDeserializator;
 
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.net.URL;
+import java.util.*;
 
 public class JsonUtils {
 
@@ -109,6 +109,43 @@ public class JsonUtils {
         }
     }
 
+
+    public static void toJson(Object obj, File file) {
+        try {
+            myObjectMapper.writeValue(file, obj);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static void toJson(Object obj, Writer writer) {
+        try {
+            myObjectMapper.writeValue(writer, obj);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static void toJson(Object obj, OutputStream out) {
+        try {
+            myObjectMapper.writeValue(out, obj);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static void toJson(Object obj, DataOutput out) {
+        try {
+            myObjectMapper.writeValue(out, obj);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
     public static String toJson2(Object obj) {
         try {
             return myObjectMapperNoPretty.writeValueAsString(obj);
@@ -118,25 +155,195 @@ public class JsonUtils {
     }
 
 
-    public static <T> T fromJson(JsonNode jsonNode, Class<T> c) {
+    public static void toJson2(Object obj, File file) {
         try {
-            return myObjectMapper.convertValue(jsonNode, c);
-        } catch (Exception var5) {
-            throw new RuntimeException("Error", var5);
-        }
-    }
-
-    public static <T> T fromJson(String json, Class<T> c) {
-        try {
-            return myObjectMapper.readValue(json, c);
+            myObjectMapperNoPretty.writeValue(file, obj);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
     }
 
-    public static <T> T fromJson(byte[] json, Class<T> c) {
+
+    public static void toJson2(Object obj, Writer writer) {
         try {
-            return myObjectMapper.readValue(json, c);
+            myObjectMapperNoPretty.writeValue(writer, obj);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static void toJson2(Object obj, OutputStream out) {
+        try {
+            myObjectMapperNoPretty.writeValue(out, obj);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static void toJson2(Object obj, DataOutput out) {
+        try {
+            myObjectMapperNoPretty.writeValue(out, obj);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public static <T> T fromJson(JsonNode jsonNode, Class<T> tClass) {
+        try {
+            return myObjectMapper.convertValue(jsonNode, tClass);
+        } catch (Exception var5) {
+            throw new RuntimeException("Error", var5);
+        }
+    }
+
+
+    public static <T> T fromJson(JsonNode jsonNode, TypeReference<T> valueTypeRef) {
+        try {
+            return myObjectMapper.convertValue(jsonNode, valueTypeRef);
+        } catch (Exception var5) {
+            throw new RuntimeException("Error", var5);
+        }
+    }
+
+
+    public static <T> T fromJson(JsonNode jsonNode, JavaType valueType) {
+        try {
+            return myObjectMapper.convertValue(jsonNode, valueType);
+        } catch (Exception var5) {
+            throw new RuntimeException("Error", var5);
+        }
+    }
+
+
+    public static JsonNode fromJsonToJsonNode(String string) {
+        try {
+            return myObjectMapper.readTree(string);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static JsonNode fromJsonToJsonNode(byte[] json) {
+        try {
+            return myObjectMapper.readTree(json);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static JsonNode fromJsonToJsonNode(InputStream src) {
+        try {
+            return myObjectMapper.readTree(src);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static JsonNode fromJsonToJsonNode(File file) {
+        try {
+            return myObjectMapper.readTree(file);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static JsonNode fromJsonToJsonNode(Reader reader) {
+        try {
+            return myObjectMapper.readTree(reader);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static JsonNode fromJsonToJsonNode(URL url) {
+        try {
+            return myObjectMapper.readTree(url);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+
+
+
+    public static <T> T fromJson(String json, Class<T> tClass) {
+        try {
+            return myObjectMapper.readValue(json, tClass);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(String json, TypeReference<T> valueTypeRef) {
+        try {
+            return myObjectMapper.readValue(json, valueTypeRef);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(String json, JavaType valueType) {
+        try {
+            return myObjectMapper.readValue(json, valueType);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+
+
+    public static <T> T fromJson(byte[] json, Class<T> tClass) {
+        try {
+            return myObjectMapper.readValue(json, tClass);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(byte[] json, TypeReference<T> valueTypeRef) {
+        try {
+            return myObjectMapper.readValue(json, valueTypeRef);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(byte[] json, JavaType valueType) {
+        try {
+            return myObjectMapper.readValue(json, valueType);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+
+    public static <T> T fromJson(InputStream src, Class<T> tClass) {
+        try {
+            return myObjectMapper.readValue(src, tClass);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
@@ -151,37 +358,53 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T fromJson(byte[] json, TypeReference<T> valueTypeRef) {
+
+    public static <T> T fromJson(InputStream src, JavaType valueType) {
         try {
-            return myObjectMapper.readValue(json, valueTypeRef);
+            return myObjectMapper.readValue(src, valueType);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
     }
 
-    public static <T> T fromJson(String json, TypeReference<T> valueTypeRef) {
+
+
+    public static <T> T fromJson(File file, Class<T> tClass) {
         try {
-            return myObjectMapper.readValue(json, valueTypeRef);
+            return myObjectMapper.readValue(file, tClass);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
     }
 
-    public static <T> T fromJson(InputStream src, Class<T> c) {
+
+    public static <T> T fromJson(File file, TypeReference<T> valueTypeRef) {
         try {
-            return myObjectMapper.readValue(src, c);
+            return myObjectMapper.readValue(file, valueTypeRef);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
     }
 
-    public static <T> T fromJson(Reader reader, Class<T> c) {
+
+    public static <T> T fromJson(File file, JavaType valueType) {
         try {
-            return myObjectMapper.readValue(reader, c);
+            return myObjectMapper.readValue(file, valueType);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
     }
+
+
+
+    public static <T> T fromJson(Reader reader, Class<T> tClass) {
+        try {
+            return myObjectMapper.readValue(reader, tClass);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
 
     public static <T> T fromJson(Reader reader, TypeReference<T> valueTypeRef) {
         try {
@@ -190,6 +413,67 @@ public class JsonUtils {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
     }
+
+
+    public static <T> T fromJson(Reader reader, JavaType valueType) {
+        try {
+            return myObjectMapper.readValue(reader, valueType);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(URL url, Class<T> tClass) {
+        try {
+            return myObjectMapper.readValue(url, tClass);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(URL url, TypeReference<T> valueTypeRef) {
+        try {
+            return myObjectMapper.readValue(url, valueTypeRef);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(URL url, JavaType valueType) {
+        try {
+            return myObjectMapper.readValue(url, valueType);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(DataInput dataInput, Class<T> tClass) {
+        try {
+            return myObjectMapper.readValue(dataInput, tClass);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+    public static <T> T fromJson(DataInput dataInput, JavaType valueType) {
+        try {
+            return myObjectMapper.readValue(dataInput, valueType);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
+
+
+
+
+
 
 
     public static Map<String, Object> jsonToMap(String json) {
@@ -231,6 +515,17 @@ public class JsonUtils {
         }
     }
 
+    public static Hashtable<String, Object> jsonToHashtable(String json) {
+        TypeReference<Hashtable<String, Object>> typeRef
+                = new TypeReference<Hashtable<String, Object>>() {
+        };
+        try {
+            return myObjectMapperToObjects.readValue(json, typeRef);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
     public static HashMap<String, Object> jsonToHashMap(String json) {
 
         TypeReference<LinkedHashMap<String, Object>> typeRef
@@ -246,8 +541,7 @@ public class JsonUtils {
     public static LinkedHashMap<String, Object> jsonToLinkedHashMap(String json) {
 
         TypeReference<LinkedHashMap<String, Object>> typeRef
-                = new TypeReference<LinkedHashMap<String, Object>>() {
-        };
+                = new TypeReference<LinkedHashMap<String, Object>>() {};
         try {
             return myObjectMapperToObjects.readValue(json, typeRef);
         } catch (Exception e) {
@@ -255,27 +549,37 @@ public class JsonUtils {
         }
     }
 
+    public static Set<String> jsonKeySet(String json) {
+
+        TypeReference<LinkedHashMap<String, Object>> typeRef
+                = new TypeReference<LinkedHashMap<String, Object>>() {};
+        try {
+            LinkedHashMap<String, Object> linkedHashMap = myObjectMapperToObjects.readValue(json, typeRef);
+            return linkedHashMap.keySet();
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+    public static String[] jsonKeys(String json) {
+        TypeReference<LinkedHashMap<String, Object>> typeRef
+                = new TypeReference<LinkedHashMap<String, Object>>() {};
+        try {
+            LinkedHashMap<String, Object> map = myObjectMapperToObjects.readValue(json, typeRef);
+            return map.keySet().toArray(new String[0]);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+
     public static ObjectNode toJsonNode(Object obj) {
         return myObjectMapper.convertValue(obj, ObjectNode.class);
     }
 
-    public static JsonNode jsonToJsonNode(String string) {
-        try {
-            return myObjectMapper.readTree(string);
-        } catch (Exception e) {
-            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
-        }
-    }
 
 
-    public static <T> T fromJsonNode(JsonNode json, Class<T> c) {
-        try {
-            JsonParser e = json.traverse();
-            return myObjectMapper.readValue(e, c);
-        } catch (Exception e) {
-            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
-        }
-    }
+
+
 
     public static JsonObject jsonToJsonObject(String string) {
         try {
