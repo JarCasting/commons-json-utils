@@ -2,6 +2,40 @@
 Utilities for serialize and deserialize from JSON using Jackson
 
 [![javadoc](https://javadoc.io/badge2/com.jarcasting/commons-json-utils/javadoc.svg)](https://javadoc.io/doc/com.jarcasting/commons-json-utils)
+![Maven Central](https://img.shields.io/maven-central/v/com.jarcasting/commons-json-utils?style=flat-square)
+
+
+## Maven
+
+Functionality of this package is contained in Java package `com.fasterxml.jackson.databind`, and can be used using following Maven dependency:
+
+```xml
+<dependencies>
+  ...
+  <dependency>
+    <groupId>com.jarcasting</groupId>
+    <artifactId>commons-json-utils</artifactId>
+    <version>1.0.3</version>
+  </dependency>
+  ...
+</dependencies>
+```
+
+Depends on: 
+
+* `com.fasterxml.jackson.core : jackson-databind`
+* `com.fasterxml.jackson.module : jackson-module-parameter-names`
+* `com.fasterxml.jackson.datatype : jackson-datatype-jdk8`
+* `com.fasterxml.jackson.datatype : jackson-datatype-jsr310`
+* `com.fasterxml.jackson.datatype : jackson-datatype-jsr353`
+* `org.apache.commons : commons-lang3`
+
+
+
+
+
+
+
 
 
 
