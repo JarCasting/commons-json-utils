@@ -7,7 +7,7 @@
     <groupId>com.jarcasting</groupId>
     <artifactId>commons-json-utils</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <name>Commons Json Utilities</name>
     <description>Utilities for serialize and deserialize from JSON using Jackson</description>
