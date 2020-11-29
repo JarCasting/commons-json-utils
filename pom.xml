@@ -7,7 +7,7 @@
     <groupId>com.jarcasting</groupId>
     <artifactId>commons-json-utils</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <name>Commons Json Utilities</name>
     <description>Utilities for serialize and deserialize from JSON using Jackson</description>
@@ -138,6 +138,11 @@
                     <optimize>true</optimize>
                 </configuration>
             </plugin>
+
+
+
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -145,7 +150,6 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
-
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -160,7 +164,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -175,12 +178,65 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.ruleoftech</groupId>
+                <artifactId>markdown-page-generator-plugin</artifactId>
+                <version>2.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <inputDirectory>${project.basedir}/</inputDirectory>
+                    <outputDirectory>${project.basedir}/target/</outputDirectory>
+                    <inputFileExtensions> md, markdown </inputFileExtensions>
+                    <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
+                    <inputEncoding>UTF-8</inputEncoding>
+                    <outputEncoding>UTF-8</outputEncoding>
+                    <attributes>
+                        <attribute>TableBlock|class=table table-striped table-bordered</attribute>
+                        <attribute>BlockQuote|class=q</attribute>
+                        <attribute>FencedCodeBlock|class=code</attribute>
+                    </attributes>
+                </configuration>
+            </plugin>
+
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>attach-htmls</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/README.html</file>
+                                    <classifier>readme</classifier>
+                                    <type>html</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.4</version>
-
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>

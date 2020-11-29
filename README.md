@@ -15,7 +15,7 @@ Functionality of this package is contained in Java package `com.fasterxml.jackso
   <dependency>
     <groupId>com.jarcasting</groupId>
     <artifactId>commons-json-utils</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
   </dependency>
   ...
 </dependencies>
