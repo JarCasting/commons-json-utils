@@ -158,5 +158,7 @@ License
 Licensed under the [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 ---
+
 [JarCasting.ru - поиск по центральному Maven-репозиторию](https://jarcasting.ru)
+
 [JarCasting.com - Unofficial Maven Central Search Engine](https://jarcasting.com)
