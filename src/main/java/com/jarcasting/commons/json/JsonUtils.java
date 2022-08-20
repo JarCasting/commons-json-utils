@@ -17,9 +17,6 @@ package com.jarcasting.commons.json;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -28,15 +25,12 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr353.JSR353Module;
-import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.jarcasting.commons.json.jackson.BigDecimalDeserializator;
 import com.jarcasting.commons.json.jackson.BigDecimalSerializator;
 import com.jarcasting.commons.json.jackson.DoubleSerializator;
-import com.jarcasting.commons.json.jackson.PrimitiveToObjectDeserializator;
+import jakarta.json.JsonValue;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -581,17 +575,32 @@ public class JsonUtils {
 
 
 
-    public static JsonObject jsonToJsonObject(String string) {
+    public static JsonValue jsonToJakartaJsonValue(String string) {
         try {
-            return myObjectMapper.readValue(string, JsonObject.class);
+            return myObjectMapper.readValue(string, JsonValue.class);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
     }
 
-    public static JsonValue jsonToJsonObject(InputStream string) {
+    public static JsonValue jsonToJakartaJsonValue(InputStream string) {
         try {
             return myObjectMapper.readValue(string, JsonValue.class);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+    public static javax.json.JsonValue jsonToJsonObject(String string) {
+        try {
+            return myObjectMapper.readValue(string, javax.json.JsonValue.class);
+        } catch (Exception e) {
+            throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
+    }
+
+    public static javax.json.JsonValue jsonToJsonObject(InputStream string) {
+        try {
+            return myObjectMapper.readValue(string, javax.json.JsonValue.class);
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtils.getRootCauseMessage(e), e);
         }
